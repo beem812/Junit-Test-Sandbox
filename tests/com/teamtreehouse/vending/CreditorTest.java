@@ -29,7 +29,6 @@ public class CreditorTest {
     @Test
     public void refundingReturnsAllAvailableFunds() throws Exception{
         creditor.addFunds(10);
-
         int refund = creditor.refund();
 
         assertEquals(10, refund);
@@ -38,9 +37,13 @@ public class CreditorTest {
     @Test
     public void refundingResetsAvailableFundsToZero() throws Exception {
         creditor.addFunds(10);
-
-        int refund = creditor.refund();
+        creditor.refund();
 
         assertEquals(0, creditor.getAvailableFunds());
+    }
+
+    @Test(expected = NotEnoughFundsException.class)
+    public void deductingMoreMoneyThanIsAvailableNotAllowed() throws Exception {
+        creditor.deduct(50);
     }
 }
